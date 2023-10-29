@@ -4,7 +4,7 @@ from .ast import Number, BinOp, UnaryOp
 
 class NodeVisitor:
 
-    def visit(self):
+    def visit(self, node):
         pass
 
 
