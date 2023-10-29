@@ -1,4 +1,5 @@
 import pytest
+
 from interpreter import Interpreter
 
 
@@ -19,7 +20,6 @@ class TestInterpreter:
     def test_add_with_letter(self, interpreter):
         with pytest.raises(SyntaxError):
             interpreter.eval("2+a")
-            interpreter.eval("t+2")
 
     def test_wrong_operator(self, interpreter):
         with pytest.raises(SyntaxError):
@@ -47,3 +47,12 @@ class TestInterpreter:
 
     def test_unary_expression(self, interpreter):
         assert interpreter.eval("-2-2") == -4
+
+    def test_exprression_priority(self, interpreter):
+        assert interpreter.eval("2+2*2") == 6
+
+    def test_unary_expression_paren(self, interpreter):
+        assert interpreter.eval("-(2+2)") == -4
+
+    def test_binary_unary_expression(self, interpreter):
+        assert interpreter.eval("-(2 + 2 * 4)") == -10

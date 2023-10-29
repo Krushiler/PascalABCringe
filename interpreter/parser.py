@@ -9,7 +9,7 @@ class Parser:
         self._lexer = Lexer()
 
     def check_token(self, type_: TokenType):
-        if self._current_token.type_ == type_:
+        if self._current_token and self._current_token.type_ == type_:
             self._current_token = self._lexer.next()
         else:
             raise SyntaxError("invalid token order")
@@ -33,9 +33,8 @@ class Parser:
 
     def term(self):
         result = self.factor()
-        while self._current_token and (self._current_token.type_ == TokenType.OPERATOR):
-            if self._current_token.value not in ["*", "/"]:
-                break
+        while self._current_token and (
+                self._current_token.type_ == TokenType.OPERATOR) and self._current_token.value in ["*", "/"]:
             token = self._current_token
             self.check_token(TokenType.OPERATOR)
             return BinOp(result, token, self.factor())
@@ -43,9 +42,8 @@ class Parser:
 
     def expr(self):
         result = self.term()
-        while self._current_token and (self._current_token.type_ == TokenType.OPERATOR):
-            if self._current_token.value not in ["+", "-"]:
-                break
+        while self._current_token and (
+                self._current_token.type_ == TokenType.OPERATOR) and self._current_token.value in ["+", "-"]:
             token = self._current_token
             self.check_token(TokenType.OPERATOR)
             result = BinOp(result, token, self.term())

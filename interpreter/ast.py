@@ -29,4 +29,4 @@ class UnaryOp(Node):
         self.number = number
 
     def __str__(self):
-        return f"UnaryOp{self.op} ({self.number})"
+        return f"UnaryOp{self.op.value} ({self.number})"
