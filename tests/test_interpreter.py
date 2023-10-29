@@ -44,3 +44,6 @@ class TestInterpreter:
 
     def test_unary_plus(self, interpreter):
         assert interpreter.eval("+2") == 2
+
+    def test_unary_expression(self, interpreter):
+        assert interpreter.eval("-2-2") == -4
