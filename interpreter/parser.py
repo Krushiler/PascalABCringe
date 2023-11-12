@@ -88,7 +88,7 @@ class Parser:
                and self._current_token.value in ["*", "/"]):
             token = self._current_token
             self.check_token(TokenType.OPERATOR)
-            return BinOp(result, token, self.factor())
+            return BinOp(result, token, self.term())
         return result
 
     def expr(self):
