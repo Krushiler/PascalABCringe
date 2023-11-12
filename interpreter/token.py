@@ -14,7 +14,6 @@ class TokenType(Enum):
     COLON = auto()
     SEMICOLON = auto()
     ID = auto()
-    EOL = auto()
 
 
 class Token:

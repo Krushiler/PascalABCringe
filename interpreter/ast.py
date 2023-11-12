@@ -60,12 +60,11 @@ class ComplexStatement(Node):
 
 
 class Block(Node):
-    def __init__(self, declarations: list, complex_statement: Node):
-        self.declarations = declarations
+    def __init__(self, complex_statement: Node):
         self.complex_statement = complex_statement
 
     def __str__(self):  # pragma: no cover
-        return f"Block ({self.declarations}, {self.complex_statement})"
+        return f"Block ({self.complex_statement})"
 
 
 class EmptyNode(Node):

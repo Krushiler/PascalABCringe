@@ -86,21 +86,5 @@ class Lexer:
                 op = self._current_char
                 self.forward()
                 return Token(TokenType.SEMICOLON, op)
-            if self._current_char == ".":
-                op = self._current_char
-                self.forward()
-                return Token(TokenType.DOT, op)
-            if self._current_char == "=":
-                op = self._current_char
-                self.forward()
-                return Token(TokenType.ASSIGN, op)
-            if self._current_char == ",":
-                op = self._current_char
-                self.forward()
-                return Token(TokenType.COMMA, op)
-            if self._current_char == "\n":
-                op = self._current_char
-                self.forward()
-                return Token(TokenType.EOL, op)
 
             raise SyntaxError("Bad token")

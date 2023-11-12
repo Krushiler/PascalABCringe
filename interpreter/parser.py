@@ -1,4 +1,4 @@
-from .token import Token, TokenType
+from .token import TokenType, Token
 from .lexer import Lexer
 from .ast import BinOp, Number, UnaryOp, Var, Assign, ComplexStatement, EmptyNode, Block
 
@@ -9,36 +9,15 @@ class Parser:
         self._lexer = Lexer()
 
     def check_token(self, type_: TokenType):
-        while self._current_token and self._current_token.type_ == TokenType.EOL:
-            self._current_token = self._lexer.next()
         if self._current_token and self._current_token.type_ == type_:
             self._current_token = self._lexer.next()
         else:
             raise SyntaxError("Invalid token order")
 
     def block(self):
-        declarations = self.declarations()
         complex_statement = self.complex_statement()
-        node = Block(declarations, complex_statement)
+        node = Block(complex_statement)
         return node
-
-    def declarations(self):
-        declarations = []
-        while self._current_token and self._current_token.type_ == TokenType.ID:
-            declarations.append(self.variable_declaration())
-            self.check_token(TokenType.SEMICOLON)
-        return declarations
-
-    def variable_declaration(self):
-        nodes = [Var(self._current_token)]
-        self.check_token(TokenType.ID)
-        while self._current_token and self._current_token.type_ == TokenType.COMMA:
-            self.check_token(TokenType.COMMA)
-            nodes.append(Var(self._current_token))
-            self.check_token(TokenType.ID)
-        self.check_token(TokenType.SEMICOLON)
-
-        return nodes
 
     def complex_statement(self):
         self.check_token(TokenType.BEGIN)
@@ -58,8 +37,6 @@ class Parser:
             self.check_token(TokenType.SEMICOLON)
             results.append(self.statement())
 
-        if self._current_token and self._current_token.type_ == TokenType.ID:
-            raise SyntaxError("Invalid statement")
         return results
 
     def statement(self):
@@ -86,7 +63,7 @@ class Parser:
 
     def factor(self):
         token = self._current_token
-        if not token:
+        if not token or not isinstance(token, Token):
             raise SyntaxError("Invalid factor")
         elif token.type_ == TokenType.NUMBER:
             self.check_token(TokenType.NUMBER)
